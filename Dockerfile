@@ -14,10 +14,10 @@ RUN npm install --omit=dev
 COPY . .
 
 # Definir variável de ambiente da porta
-ENV PORT=8080
+ENV PORT=3001
 
 # Expor porta da aplicação
-EXPOSE 8080
+EXPOSE 3001
 
 # Comando para iniciar a aplicação
 CMD ["npm", "start"]
