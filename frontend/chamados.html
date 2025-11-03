@@ -54,7 +54,7 @@
 
   async function fetchChamados() {
     try {
-      const res = await fetch("http://localhost:3001/chamados");
+      const res = await fetch("https://maincor3.vercel.app/chamados");
       if (!res.ok) throw new Error("Erro ao buscar chamados");
       const chamados = await res.json();
       renderTable(chamados);

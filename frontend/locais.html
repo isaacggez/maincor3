@@ -77,7 +77,7 @@
 
     async function carregarLocais() {
       try {
-        const locais = await fetch("http://localhost:3001/locais", {
+        const locais = await fetch("https://maincor3.vercel.app/locais", {
           headers: { Authorization: `Bearer ${token}` }
         }).then(r => r.json());
         renderLocais(locais);

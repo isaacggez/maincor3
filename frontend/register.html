@@ -42,7 +42,7 @@
       const senha = document.getElementById("senha").value;
 
       try {
-        const resposta = await fetch("http://localhost:3001/auth/registrar", {
+        const resposta = await fetch("https://maincor3.vercel.app/auth/registrar", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nome, email, senha }),
