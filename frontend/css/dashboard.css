@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: linear-gradient(180deg,#071024,#050612);
+  color: #ffffff; /* textos em branco */
+}
+
+.dashboard-container { display:flex; min-height:100vh; }
+
+.sidebar {
+  width: 220px;
+  background: linear-gradient(180deg,#0f1b33,#081025);
+  color: #cfe0ff;
+  padding: 22px;
+  border-right:1px solid rgba(47,111,255,0.06);
+}
+
+.sidebar .logo { font-weight:700; font-size:1.25rem; color:#fff; margin-bottom:18px; }
+.sidebar ul li a { color:#afc6ff; padding:8px 10px; border-radius:6px; display:block; text-decoration:none; }
+.sidebar ul li a.active, .sidebar ul li a:hover { background: rgba(47,111,255,0.08); color: #fff; }
+
+.main-content { flex:1; padding:20px; background:transparent; }
+
+/* cards/list-group compact */
+.list-group li { width: 220px; background: linear-gradient(180deg,#081227,#06101c); border:1px solid rgba(255,255,255,0.12); padding:10px; border-radius:10px; color:#ffffff; }
+
+/* Overrides para textos que ainda vinham cinza no dashboard */
+.text-muted, .text-secondary {
+  color: rgba(255,255,255,0.92) !important;
+}
+
+h1,h2,h3,h4,h5,h6, .sidebar .logo, .sidebar ul li a {
+  color: #ffffff !important;
+}
+
+/* garantir títulos/modais brancos */
+.modal-title, .list-group li, .list-group li * {
+  color: #ffffff !important;
+}
