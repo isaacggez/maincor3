@@ -37,9 +37,11 @@
     document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const nome = document.getElementById("nome").value;
-      const email = document.getElementById("email").value;
-      const senha = document.getElementById("senha").value;
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value.trim();
+      const mensagem = document.getElementById("mensagem");
+      mensagem.textContent = "";
 
       try {
         const resposta = await fetch("https://maincor3.vercel.app/auth/registrar", {
@@ -54,11 +56,11 @@
           alert("Usuário registrado com sucesso!");
           window.location.href = "login.html";
         } else {
-          document.getElementById("mensagem").textContent = dados.message || "Erro ao registrar";
+          mensagem.textContent = dados.message || "Erro ao registrar";
         }
       } catch (erro) {
         console.error("Erro no registro:", erro);
-        document.getElementById("mensagem").textContent = "Falha na conexão com o servidor";
+        mensagem.textContent = "Falha na conexão com o servidor";
       }
     });
   </script>

@@ -6,6 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
+// todas as rotas abaixo exigem autenticação
 router.use(authMiddleware);
 
 // pasta de upload
