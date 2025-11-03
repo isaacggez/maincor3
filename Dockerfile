@@ -1,22 +1,23 @@
-# ===== IMAGEM BASE =====
-FROM node:18
+# Usar Node 20 LTS como base
+FROM node:20
 
-# ===== DIRETÓRIO DE TRABALHO =====
+# Definir diretório de trabalho
 WORKDIR /usr/src/app
 
-# ===== COPIAR ARQUIVOS DE DEPENDÊNCIAS =====
+# Copiar apenas os arquivos de dependências primeiro para cache de layer
 COPY package*.json ./
 
-# ===== INSTALAR DEPENDÊNCIAS =====
-RUN npm install --production
+# Instalar apenas dependências de produção (ignora dev)
+RUN npm install --omit=dev
 
-# ===== COPIAR TODO O CÓDIGO =====
+# Copiar o restante do código da aplicação
 COPY . .
 
-# ===== PORTA =====
-# Back4App define a porta via variável de ambiente PORT
+# Definir variável de ambiente da porta
 ENV PORT=8080
+
+# Expor porta da aplicação
 EXPOSE 8080
 
-# ===== COMANDO DE INÍCIO =====
+# Comando para iniciar a aplicação
 CMD ["npm", "start"]
