@@ -13,22 +13,22 @@ const app = express();
 
 // Configuração básica do CORS
 app.use(cors({
-    // Lista de domínios que podem acessar sua API
     origin: [
-        'http://localhost:5500',  // Seu frontend local
+        'http://localhost:5500',
         'http://127.0.0.1:5500',
-        'https://maincor3.vercel.app'  // Seu site em produção
+        'https://maincor3.vercel.app',
+        'https://maincor3-7hvksownh-isaacggezs-projects.vercel.app', // Add this
+        'https://*.vercel.app' // This will allow all Vercel subdomains
     ],
-    
-    // Permite enviar cookies e headers de autenticação
     credentials: true,
-    
-    // Métodos HTTP permitidos
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    
-    // Headers permitidos
-    allowedHeaders: ['Content-Type', 'Authorization']
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Added OPTIONS
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Access-Control-Allow-Origin'],
+    maxAge: 86400 // Cache preflight requests for 24 hours
 }));
+
+// Add this right after CORS middleware
+app.options('*', cors()); // Enable pre-flight for all routes
 
 // ===== MIDDLEWARES =====
 app.use(express.json({ limit: "10mb" }));

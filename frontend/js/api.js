@@ -52,14 +52,18 @@ async function registrar(nome, email, senha) {
   try {
     const res = await fetch(`${API_URL}/auth/registrar`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include", // Importante para cookies
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      mode: "cors",
+      credentials: "include",
       body: JSON.stringify({ nome, email, senha })
     });
     
     return await handleResponse(res);
   } catch (error) {
-    console.error("Erro no registro:", error.message);
+    console.error("Erro no registro:", error);
     throw error;
   }
 }
