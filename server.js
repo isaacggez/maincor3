@@ -23,8 +23,8 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static files
-app.use(express.static('public'));
+// Serve static files before routes
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Route handlers
 const authRoutes = require("./src/routes/authRoutes");
@@ -40,6 +40,11 @@ app.use("/categorias", categoriaRoutes);
 app.use("/locais", localRoutes);
 app.use("/equipamentos", equipamentoRoutes);
 app.use("/chamados", chamadoRoutes);
+
+// Handle HTML routes explicitly
+app.get('/:page.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', `${req.params.page}.html`));
+});
 
 // Root route
 app.get('/', (req, res) => {

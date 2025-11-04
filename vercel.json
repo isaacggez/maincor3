@@ -12,6 +12,14 @@
   ],
   "routes": [
     {
+      "src": "/(css|js|img)/(.*)",
+      "dest": "/public/$1/$2"
+    },
+    {
+      "src": "/(.*)\\.html",
+      "dest": "/public/$1.html"
+    },
+    {
       "src": "/auth/(.*)",
       "dest": "server.js"
     },
