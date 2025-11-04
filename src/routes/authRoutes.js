@@ -32,17 +32,23 @@ router.post("/registrar", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, senha } = req.body;
-    if (!email || !senha)
+    if (!email || !senha) {
       return res.status(400).json({ message: "Preencha todos os campos" });
+    }
 
     const [rows] = await db.execute("SELECT * FROM usuarios WHERE email = ?", [email]);
-    if (!rows.length)
+    if (!rows.length) {
       return res.status(400).json({ message: "Email ou senha incorretos" });
+    }
 
     const user = rows[0];
+    console.log('Comparing passwords...');
     const senhaValida = await compararSenha(senha, user.senha);
-    if (!senhaValida)
+    console.log('Password valid:', senhaValida);
+
+    if (!senhaValida) {
       return res.status(400).json({ message: "Email ou senha incorretos" });
+    }
 
     const token = jwt.sign(
       {
@@ -57,8 +63,8 @@ router.post("/login", async (req, res) => {
 
     res.json({ token, nome: user.nome, email: user.email });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Erro ao fazer login" });
+    console.error('Login error:', err);
+    res.status(500).json({ message: "Erro ao fazer login", error: err.message });
   }
 });
 
