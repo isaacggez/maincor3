@@ -23,32 +23,19 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set proper MIME types for static files
-app.use(express.static('public', {
-    setHeaders: (res, path) => {
-        if (path.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css');
-        } else if (path.endsWith('.js')) {
-            res.setHeader('Content-Type', 'application/javascript');
-        } else if (path.endsWith('.html')) {
-            res.setHeader('Content-Type', 'text/html');
-        }
-    }
-}));
+// Static files
+app.use(express.static('public'));
 
 // Route handlers
 const authRoutes = require("./src/routes/authRoutes");
+const organizacaoRoutes = require("./src/routes/organizacaoRoutes");
+const categoriaRoutes = require("./src/routes/categoriaRoutes");
+
 app.use("/auth", authRoutes);
+app.use("/organizacoes", organizacaoRoutes);
+app.use("/categorias", categoriaRoutes);
 
-// API root route
-app.get('/api', (req, res) => {
-    res.json({
-        status: 'online',
-        message: 'MainCore API v1.0'
-    });
-});
-
-// Serve index.html for root route
+// Root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

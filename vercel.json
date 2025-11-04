@@ -16,36 +16,34 @@
       "dest": "server.js"
     },
     {
+      "src": "/organizacoes/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/categorias/(.*)",
+      "dest": "server.js"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "server.js"
     },
     {
       "src": "/css/(.*)",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable",
-        "Content-Type": "text/css"
-      },
+      "headers": { "Content-Type": "text/css" },
       "dest": "/public/css/$1"
     },
     {
       "src": "/js/(.*)",
-      "headers": {
-        "cache-control": "public, max-age=31536000, immutable",
-        "Content-Type": "application/javascript"
-      },
+      "headers": { "Content-Type": "application/javascript" },
       "dest": "/public/js/$1"
     },
     {
       "src": "/(.*).html",
-      "headers": {
-        "cache-control": "public, max-age=0, must-revalidate",
-        "Content-Type": "text/html"
-      },
       "dest": "/public/$1.html"
     },
     {
-      "src": "/",
-      "dest": "/public/index.html"
+      "src": "/(.*)",
+      "dest": "server.js"
     }
   ]
 }

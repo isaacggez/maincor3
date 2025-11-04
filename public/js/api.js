@@ -14,15 +14,53 @@ function getHeaders(json = true) {
   return headers;
 }
 
-async function handleResponse(res) {
-  const text = await res.text();
-  let data;
-  try { data = text ? JSON.parse(text) : {}; } catch { data = { message: text }; }
-  if (!res.ok) {
-    const msg = data && data.message ? data.message : `Erro ${res.status}`;
-    throw new Error(msg);
-  }
-  return data;
+async function handleResponse(response) {
+    const data = await response.json();
+    
+    if (!response.ok) {
+        console.error('API Error:', {
+            status: response.status,
+            statusText: response.statusText,
+            data
+        });
+        throw new Error(data.message || 'Erro na requisição');
+    }
+    
+    return data;
+}
+
+async function carregarOrganizacoes() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/organizacoes`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao carregar organizações:', error);
+        throw error;
+    }
+}
+
+async function carregarCategorias() {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/categorias`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao carregar categorias:', error);
+        throw error;
+    }
 }
 
 // ------------------- Usuário -------------------
