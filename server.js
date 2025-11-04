@@ -1,6 +1,7 @@
 // backend/server.js
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 const db = require("./src/config/db");
 
@@ -22,12 +23,15 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Route handlers
 const authRoutes = require("./src/routes/authRoutes");
 app.use("/auth", authRoutes);
 
-// Rota raiz
-app.get('/', (req, res) => {
+// API root route
+app.get('/api', (req, res) => {
     res.json({
         status: 'online',
         message: 'MainCore API v1.0',
@@ -40,12 +44,11 @@ app.get('/', (req, res) => {
     });
 });
 
-// Health check route
-app.get('/ping', (req, res) => {
-    res.send('pong');
+// Catch all route for SPA
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Para desenvolvimento local
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
