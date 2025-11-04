@@ -28,4 +28,52 @@ router.get("/:id/historico", chamadoController.historico);
 // Deletar chamado
 router.delete("/:id", chamadoController.deletar);
 
+// Criar chamado em um equipamento
+router.post("/", async (req, res) => {
+  try {
+    console.log('[REQ] POST /chamados body:', req.body);
+
+    // aceita body = number (ex: 27), body = "27", ou body = { id_equipamento, ... }
+    let id_equipamento;
+    if (typeof req.body === 'number') {
+      id_equipamento = req.body;
+    } else if (typeof req.body === 'string' && /^\d+$/.test(req.body.trim())) {
+      id_equipamento = Number(req.body.trim());
+    } else if (req.body && typeof req.body === 'object') {
+      id_equipamento =
+        req.body.id_equipamento ||
+        req.body.equipamentoId ||
+        (req.body.equipamento && (req.body.equipamento.id || req.body.equipamento.id_equipamento)) ||
+        undefined;
+    }
+
+    id_equipamento = Number(id_equipamento);
+
+    const { titulo, descricao, prioridade } = (typeof req.body === 'object') ? req.body : {};
+
+    // validações mínimas
+    if (!Number.isInteger(id_equipamento) || id_equipamento <= 0) {
+      return res.status(400).json({ message: 'id_equipamento inválido ou ausente' });
+    }
+    if (!descricao || String(descricao).trim() === '') {
+      return res.status(400).json({ message: 'descricao é obrigatória' });
+    }
+
+    const created = await chamadoController.create({
+      id_equipamento,
+      titulo: titulo || null,
+      descricao,
+      prioridade: prioridade || 'media'
+    });
+
+    return res.status(201).json(created);
+  } catch (err) {
+    console.error('Erro POST /chamados:', err);
+    const status = err.status || 500;
+    const message = err.message || 'Erro ao criar chamado';
+    const detail = err.sqlMessage || err.detail || undefined;
+    return res.status(status).json({ message, detail });
+  }
+});
+
 module.exports = router;

@@ -20,8 +20,33 @@ app.use(cors({
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// substituir express.json() por esta versão:
+app.use(express.json({ strict: false })); // permite primitivos (números, strings) além de objetos/arrays
+app.use(express.text({ type: ['text/*', 'application/json'] })); // aceita bodies text/plain
+
+// normaliza body quando for text/plain ou um primitivo em string
+app.use((req, res, next) => {
+  try {
+    if (typeof req.body === 'string' && req.body.trim() !== '') {
+      // tenta parse JSON (objeto/array/primitive)
+      try {
+        req.body = JSON.parse(req.body);
+      } catch (err) {
+        // não JSON — se for número puro, converte para Number
+        const t = req.body.trim();
+        if (/^-?\d+(\.\d+)?$/.test(t)) {
+          req.body = Number(t);
+        } else {
+          // mantém string
+          req.body = req.body;
+        }
+      }
+    }
+  } catch (e) {
+    console.error('Body normalization error:', e);
+  }
+  next();
+});
 
 // Serve static files BEFORE route handlers
 app.use(express.static(path.join(__dirname, 'public')));
