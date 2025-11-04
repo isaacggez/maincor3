@@ -20,7 +20,18 @@
       "dest": "server.js"
     },
     {
-      "handle": "filesystem"
+      "src": "/css/(.*)",
+      "headers": { "Content-Type": "text/css" },
+      "dest": "/public/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "headers": { "Content-Type": "application/javascript" },
+      "dest": "/public/js/$1"
+    },
+    {
+      "src": "/(.*)\\.html",
+      "dest": "/public/$1.html"
     },
     {
       "src": "/(.*)",
