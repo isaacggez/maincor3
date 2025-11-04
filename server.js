@@ -26,17 +26,26 @@ app.use(express.urlencoded({ extended: true }));
 const authRoutes = require("./src/routes/authRoutes");
 app.use("/auth", authRoutes);
 
-// Remove any app.options('*', cors()) calls
-// Instead use specific preflight routes
-app.options('/auth/registrar', cors());
-app.options('/auth/login', cors());
+// Rota raiz
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        message: 'MainCore API v1.0',
+        docs: {
+            auth: {
+                register: '/auth/registrar',
+                login: '/auth/login'
+            }
+        }
+    });
+});
 
 // Health check route
 app.get('/ping', (req, res) => {
     res.send('pong');
 });
 
-// For local development only
+// Para desenvolvimento local
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
