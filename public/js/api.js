@@ -262,23 +262,17 @@ async function carregarChamados(equipamentoId) {
 }
 
 async function criarChamado(dados) {
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) throw new Error('Token não encontrado');
-
-        const response = await fetch(`${API_URL}/chamados`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dados)
-        });
-        return handleResponse(response);
-    } catch (error) {
-        console.error('Erro ao criar chamado:', error);
-        throw error;
-    }
+    console.log('[OUT] criarChamado payload:', dados, 'tokenExists:', !!localStorage.getItem('token'));
+    const token = localStorage.getItem('token');
+    const res = await fetch(`${API_URL}/chamados`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(dados)
+    });
+    return handleResponse(res);
 }
 
 async function atualizarStatusChamado(id_chamado, status) {

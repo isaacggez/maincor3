@@ -404,3 +404,22 @@ document.getElementById("salvar-chamado").addEventListener("click", async () => 
     alert("Erro ao criar chamado: " + err.message);
   }
 });
+
+document.getElementById('criarChamadoBtn').addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    // Onde monta e chama criarChamado:
+    const id_equipamento = Number(selectedEquipamentoId);
+    const titulo = document.getElementById('chamadoTitulo')?.value || '';
+    const descricao = document.getElementById('chamadoDescricao')?.value || '';
+
+    if (!descricao.trim()) {
+      alert('Por favor, preencha a descrição do chamado.');
+      return;
+    }
+
+    const dadosChamado = { id_equipamento, titulo, descricao };
+
+    // chama função que faz fetch (public/js/api.js)
+    await criarChamado(dadosChamado);
+});

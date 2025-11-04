@@ -30,9 +30,9 @@ router.delete("/:id", chamadoController.deletar);
 
 // Criar chamado em um equipamento
 router.post("/", async (req, res) => {
+  console.log('[REQ] POST /chamados headers:', req.headers);
+  console.log('[REQ] POST /chamados raw body (type):', typeof req.body, req.body);
   try {
-    console.log('[REQ] POST /chamados body:', req.body);
-
     // aceita body = number (ex: 27), body = "27", ou body = { id_equipamento, ... }
     let id_equipamento;
     if (typeof req.body === 'number') {
