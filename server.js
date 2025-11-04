@@ -23,7 +23,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files before routes
+// Serve static files BEFORE route handlers
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Route handlers
@@ -40,15 +40,5 @@ app.use("/categorias", categoriaRoutes);
 app.use("/locais", localRoutes);
 app.use("/equipamentos", equipamentoRoutes);
 app.use("/chamados", chamadoRoutes);
-
-// Handle HTML routes explicitly
-app.get('/:page.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', `${req.params.page}.html`));
-});
-
-// Root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 module.exports = app;

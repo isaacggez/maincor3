@@ -12,39 +12,20 @@
   ],
   "routes": [
     {
+      "src": "/auth/(.*)",
+      "dest": "server.js"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "server.js"
+    },
+    {
       "src": "/(css|js|img)/(.*)",
       "dest": "/public/$1/$2"
     },
     {
       "src": "/(.*)\\.html",
       "dest": "/public/$1.html"
-    },
-    {
-      "src": "/auth/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/organizacoes/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/categorias/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/locais/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/equipamentos/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "src": "/chamados/(.*)",
-      "dest": "server.js"
-    },
-    {
-      "handle": "filesystem"
     },
     {
       "src": "/(.*)",
