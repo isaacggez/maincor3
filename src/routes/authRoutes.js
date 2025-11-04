@@ -8,6 +8,8 @@ const JWT_SECRET = process.env.JWT_SECRET || "secreta";
 
 // Registrar usuário
 router.post("/registrar", async (req, res) => {
+  console.log("⭐ Requisição recebida em /auth/registrar:", req.body);
+  
   try {
     const { nome, email, senha } = req.body;
     if (!nome || !email || !senha)
