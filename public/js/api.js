@@ -178,13 +178,45 @@ async function getEquipamentos(id_local) {
   return handleResponse(res);
 }
 
-async function criarEquipamento(id_local, dados) {
-  const res = await fetch(`${API_URL}/equipamentos/local/${id_local}`, {
-    method: "POST",
-    headers: getHeaders(),
-    body: JSON.stringify(dados)
-  });
-  return handleResponse(res);
+async function carregarEquipamentos(localId) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/equipamentos/local/${localId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao carregar equipamentos:', error);
+        throw error;
+    }
+}
+
+async function criarEquipamento(localId, dados) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/equipamentos`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                ...dados,
+                id_local: localId
+            })
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao criar equipamento:', error);
+        throw error;
+    }
 }
 
 async function atualizarEquipamento(id_equipamento, dados) {

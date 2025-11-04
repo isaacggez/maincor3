@@ -31,11 +31,13 @@ const authRoutes = require("./src/routes/authRoutes");
 const organizacaoRoutes = require("./src/routes/organizacaoRoutes");
 const categoriaRoutes = require("./src/routes/categoriaRoutes");
 const localRoutes = require("./src/routes/localRoutes");
+const equipamentoRoutes = require("./src/routes/equipamentoRoutes");
 
 app.use("/auth", authRoutes);
 app.use("/organizacoes", organizacaoRoutes);
 app.use("/categorias", categoriaRoutes);
 app.use("/locais", localRoutes);
+app.use("/equipamentos", equipamentoRoutes);
 
 // Root route
 app.get('/', (req, res) => {
