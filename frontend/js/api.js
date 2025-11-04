@@ -1,5 +1,7 @@
 // ==================== api.js ====================
-const API_URL = "http://localhost:3001"; // ajuste conforme necessário
+const API_URL = window.location.hostname === "localhost" 
+  ? "http://localhost:3001"
+  : "https://maincor3.vercel.app";
 
 function getToken() {
   return localStorage.getItem("token") || "";
@@ -25,29 +27,41 @@ async function handleResponse(res) {
 
 // ------------------- Usuário -------------------
 async function login(email, senha) {
-  const res = await fetch(`${API_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, senha })
-  });
-  const data = await handleResponse(res);
-  if (data.token) {
-    localStorage.setItem("token", data.token);
+  try {
+    const res = await fetch(`${API_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // Importante para cookies
+      body: JSON.stringify({ email, senha })
+    });
+    
+    const data = await handleResponse(res);
+    
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
+    
+    return data;
+  } catch (error) {
+    console.error("Erro no login:", error.message);
+    throw error;
   }
-  return data;
 }
 
 async function registrar(nome, email, senha) {
-  const res = await fetch(`${API_URL}/auth/registrar`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nome, email, senha })
-  });
-  const data = await handleResponse(res);
-  if (data.token) {
-    localStorage.setItem("token", data.token);
+  try {
+    const res = await fetch(`${API_URL}/auth/registrar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include", // Importante para cookies
+      body: JSON.stringify({ nome, email, senha })
+    });
+    
+    return await handleResponse(res);
+  } catch (error) {
+    console.error("Erro no registro:", error.message);
+    throw error;
   }
-  return data;
 }
 
 // ------------------- Organizações -------------------

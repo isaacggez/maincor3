@@ -11,8 +11,26 @@ if (!process.env.JWT_SECRET) {
 
 const app = express();
 
+// Configuração básica do CORS
+app.use(cors({
+    // Lista de domínios que podem acessar sua API
+    origin: [
+        'http://localhost:5500',  // Seu frontend local
+        'http://127.0.0.1:5500',
+        'https://maincor3.vercel.app'  // Seu site em produção
+    ],
+    
+    // Permite enviar cookies e headers de autenticação
+    credentials: true,
+    
+    // Métodos HTTP permitidos
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    
+    // Headers permitidos
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 // ===== MIDDLEWARES =====
-app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -86,5 +104,9 @@ app.use((err, req, res, next) => {
 });
 
 // ===== INICIALIZAÇÃO DO SERVIDOR =====
-const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3001;
+  app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
+}
+
+module.exports = app;
