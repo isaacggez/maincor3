@@ -14,19 +14,20 @@ function getHeaders(json = true) {
   return headers;
 }
 
-async function handleResponse(response) {
-    const data = await response.json();
-    
-    if (!response.ok) {
-        console.error('API Error:', {
-            status: response.status,
-            statusText: response.statusText,
-            data
-        });
-        throw new Error(data.message || 'Erro na requisição');
+async function handleResponse(res) {
+    const text = await res.text();
+    try {
+        const data = text ? JSON.parse(text) : {};
+        if (!res.ok) {
+            console.error('API error body:', text);
+            throw new Error(data.message || res.statusText || `Erro ${res.status}`);
+        }
+        return data;
+    } catch (err) {
+        // resposta não-JSON: log completo e lança erro com texto
+        console.error('Resposta inválida (não JSON):', { status: res.status, text });
+        throw new Error(text || err.message);
     }
-    
-    return data;
 }
 
 async function carregarOrganizacoes() {
