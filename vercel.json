@@ -32,22 +32,11 @@
       "dest": "server.js"
     },
     {
-      "src": "/api/(.*)",
+      "src": "/chamados/(.*)",
       "dest": "server.js"
     },
     {
-      "src": "/css/(.*)",
-      "headers": { "Content-Type": "text/css" },
-      "dest": "/public/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "headers": { "Content-Type": "application/javascript" },
-      "dest": "/public/js/$1"
-    },
-    {
-      "src": "/(.*).html",
-      "dest": "/public/$1.html"
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",

@@ -32,12 +32,14 @@ const organizacaoRoutes = require("./src/routes/organizacaoRoutes");
 const categoriaRoutes = require("./src/routes/categoriaRoutes");
 const localRoutes = require("./src/routes/localRoutes");
 const equipamentoRoutes = require("./src/routes/equipamentoRoutes");
+const chamadoRoutes = require("./src/routes/chamadoRoutes");
 
 app.use("/auth", authRoutes);
 app.use("/organizacoes", organizacaoRoutes);
 app.use("/categorias", categoriaRoutes);
 app.use("/locais", localRoutes);
 app.use("/equipamentos", equipamentoRoutes);
+app.use("/chamados", chamadoRoutes);
 
 // Root route
 app.get('/', (req, res) => {

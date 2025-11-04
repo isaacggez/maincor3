@@ -242,13 +242,42 @@ async function getChamados(id_equipamento) {
   return handleResponse(res);
 }
 
-async function criarChamado(id_equipamento, dados) {
-  const res = await fetch(`${API_URL}/chamados/equipamento/${id_equipamento}`, {
-    method: "POST",
-    headers: getHeaders(),
-    body: JSON.stringify(dados)
-  });
-  return handleResponse(res);
+async function carregarChamados(equipamentoId) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/chamados/equipamento/${equipamentoId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao carregar chamados:', error);
+        throw error;
+    }
+}
+
+async function criarChamado(dados) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Token não encontrado');
+
+        const response = await fetch(`${API_URL}/chamados`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dados)
+        });
+        return handleResponse(response);
+    } catch (error) {
+        console.error('Erro ao criar chamado:', error);
+        throw error;
+    }
 }
 
 async function atualizarStatusChamado(id_chamado, status) {
