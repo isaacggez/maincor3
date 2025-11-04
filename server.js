@@ -23,13 +23,15 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Set proper MIME types
+// Set proper MIME types for static files
 app.use(express.static('public', {
     setHeaders: (res, path) => {
         if (path.endsWith('.css')) {
             res.setHeader('Content-Type', 'text/css');
         } else if (path.endsWith('.js')) {
             res.setHeader('Content-Type', 'application/javascript');
+        } else if (path.endsWith('.html')) {
+            res.setHeader('Content-Type', 'text/html');
         }
     }
 }));
@@ -46,19 +48,9 @@ app.get('/api', (req, res) => {
     });
 });
 
-// Handle HTML routes
-app.get('/:page.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', `${req.params.page}.html`));
-});
-
-// Root route
+// Serve index.html for root route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 3001;
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-}
 
 module.exports = app;

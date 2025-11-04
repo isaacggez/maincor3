@@ -21,21 +21,31 @@
     },
     {
       "src": "/css/(.*)",
-      "headers": { "Content-Type": "text/css" },
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable",
+        "Content-Type": "text/css"
+      },
       "dest": "/public/css/$1"
     },
     {
       "src": "/js/(.*)",
-      "headers": { "Content-Type": "application/javascript" },
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable",
+        "Content-Type": "application/javascript"
+      },
       "dest": "/public/js/$1"
     },
     {
-      "src": "/(.*)\\.html",
+      "src": "/(.*).html",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate",
+        "Content-Type": "text/html"
+      },
       "dest": "/public/$1.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "server.js"
+      "src": "/",
+      "dest": "/public/index.html"
     }
   ]
 }
